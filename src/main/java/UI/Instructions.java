@@ -2,35 +2,32 @@ package UI;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class About implements AfterClick{
+public class Instructions implements AfterClick{
     private Scene scene;
     private Stage window;
-    private static About about;
+    private static Instructions instructions;
     private double width = 700;
     private double height = 1000;
     
-    public static About getInstance(Stage primaryStage){
-        if(about==null){
-            about = new About(primaryStage);
+    public static Instructions getInstance(Stage primaryStage){
+        if(instructions ==null){
+            instructions = new Instructions(primaryStage);
         }
-        return about;
+        return instructions;
     }
     
-    private About(Stage primaryStage){
+    private Instructions(Stage primaryStage){
         
         window = primaryStage;
         

@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public interface AfterClick {
     //this interface gives methods common to all scenes and stages
 
-    //changes AND center on screen new scene
+    //changes AND center on the screen new scene
     static void centerWindow(AfterClick acs){
         Stage window = acs.getWindow();
         Rectangle2D screenBoundsHome = Screen.getPrimary().getVisualBounds();
@@ -24,7 +24,7 @@ public interface AfterClick {
 
     //shows exit popup window
     static void closeProgram(Stage window) {
-        boolean closing = ConfirmBox.display("Warning", "Do you wish to exit?");
+        boolean closing = ConfirmBox.display("Warning", "Do you wish to quit?");
         if(closing){
             window.close();
         }
