@@ -123,7 +123,7 @@ public class Game implements AfterClick {
             GridPane.setConstraints(lizard, 0, 8);
             gp.getChildren().addAll(spock, lizard);
 
-            instructionBox.getChildren().addAll(rpsSpock, rpsSpockSymbols);
+            instructionBox.getChildren().addAll(rpsSpockSymbols);
         } else {
             instructionBox.getChildren().addAll(rpsBasicRulesImg);
         }
@@ -136,13 +136,25 @@ public class Game implements AfterClick {
         Button returnButton = new Button("Return");
         returnButton.setPrefSize(130,20);
         returnButton.setOnAction(event -> {
-            AfterClick instance = NewGameOptions.getInstance(window);
-            AfterClick.centerWindow(instance);
+            if(ConfirmBox.display("Return to options?", "Your current game will be lost. Continue?")){
+                AfterClick instance = NewGameOptions.getInstance(window);
+                AfterClick.centerWindow(instance);
+            }
         });
         
-        GridPane.setConstraints(returnButton, 0, 10, 2,1);
+        Button newGameButton = new Button("New game");
+        newGameButton.setPrefSize(130,20);
+        newGameButton.setOnAction(event -> {
+            if(ConfirmBox.display("Open new game?", "Your current game will be lost. Continue?")){
+                AfterClick instance = new Game(window);
+                AfterClick.centerWindow(instance);
+            }
+        });
         
-        gp.getChildren().addAll(returnButton);
+        GridPane.setConstraints(returnButton, 0, 10);
+        GridPane.setConstraints(newGameButton, 2, 10);
+        
+        gp.getChildren().addAll(returnButton, newGameButton);
         
         scene = new Scene(gp, width, height);
     }
