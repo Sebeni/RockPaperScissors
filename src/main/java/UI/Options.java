@@ -7,28 +7,28 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class NewGameOptions implements AfterClick {
+public class Options implements AfterClick {
     private Scene scene;
     private Stage window;
-    private static NewGameOptions newGameOptions;
+    private static Options options;
     private double width = 450;
     private double height = 400;
     private static boolean standardGame;
     private static boolean normalRandomness;
-    private int numOfRounds;
+    private static int numOfRounds;
     
     private ChoiceBox<String> randomLevel;
     private ChoiceBox<String> gameVersion;
     private ChoiceBox<Integer> numOfRoundsField;
 
-    public static NewGameOptions getInstance(Stage primaryStage){
-        if(newGameOptions == null){
-            newGameOptions = new NewGameOptions(primaryStage);
+    public static Options getInstance(Stage primaryStage){
+        if(options == null){
+            options = new Options(primaryStage);
         }
-        return newGameOptions;
+        return options;
     }
     
-    private NewGameOptions(Stage primaryStage){
+    private Options(Stage primaryStage){
         window = primaryStage;
         GridPane gp = new GridPane();
         gp.setPadding(new Insets(10));
@@ -121,7 +121,7 @@ public class NewGameOptions implements AfterClick {
         return normalRandomness;
     }
 
-    public int getNumOfRounds() {
+    public static int getNumOfRounds() {
         return numOfRounds;
     }
 }

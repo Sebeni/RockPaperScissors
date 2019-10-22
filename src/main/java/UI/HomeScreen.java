@@ -37,7 +37,7 @@ public class HomeScreen implements AfterClick {
         Button newGame = new Button("New Game");
         newGame.setPrefSize(130,20);
         newGame.setOnAction(event -> {
-            AfterClick instance = NewGameOptions.getInstance(window);
+            AfterClick instance = Options.getInstance(window);
             AfterClick.centerWindow(instance);
         });
         
