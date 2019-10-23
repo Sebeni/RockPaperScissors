@@ -210,10 +210,10 @@ public class Game implements AfterClick {
                 highDifficultyChoice(spockChoices);
             }
         }
-
         resultPopUp();
     }
 
+    //deletes from cpu choices one (standard game) or two (spock) loosing numbers, therefore cpu has lower chance of choosing losing number
     private void highDifficultyChoice(Integer[] cpuChoices) {
         List<Integer> normalChoicesList = new ArrayList<>(Arrays.asList(cpuChoices));
         List<Integer> loosingList = loosingNumbers(playerChoice);
@@ -223,20 +223,18 @@ public class Game implements AfterClick {
         cpuChoice = normalChoicesList.get(random.nextInt(normalChoicesList.size() - 1));
     }
 
+    //sends to popup window Strings to display in it
     private void resultPopUp() {
         String playerChoiceString = "You chose: " + possibleChoices.get(playerChoice);
         String cpuChoiceString  = "CPU chose: " + possibleChoices.get(cpuChoice);
         String result = "";
         roundNum++;
         
-        //changing visible current round number
-        if(roundNum <= Options.getNumOfRounds()){
-            roundNumR.setText("" + roundNum + "/" + Options.getNumOfRounds());
-        }
+        boolean playerLost = loosingNumbers(cpuChoice).contains(playerChoice);
         
         if(cpuChoice == playerChoice){
             result = "Draw";
-        } else if(playerLost()){
+        } else if(playerLost){
             cpuWin++;
             cpuWinsR.setText("" + cpuWin);
             result = "You lost the round!";
@@ -246,11 +244,16 @@ public class Game implements AfterClick {
             result = "You won the round!";
         }
         ResultBox.display("Result", playerChoiceString, cpuChoiceString, result, roundNum, window, playerWin, cpuWin);
+        
+        //changing visible current round number
+        if(roundNum <= Options.getNumOfRounds()){
+            roundNumR.setText("" + roundNum + "/" + Options.getNumOfRounds());
+        } 
     }
 
-    //returns list of numbers which loose with given in argument number
+    //returns list of numbers which loose with given in argument numberToWin
     private List<Integer> loosingNumbers(int numberToWin){
-        /*0 - rock beats scissors (1) and lizard (3)
+        /* 0 - rock beats scissors (1) and lizard (3)
          * 1 - scissors beats paper (2) and lizard (3)
          * 2 - paper beats rock (0) and spock (4)
          * 3 - lizard beats paper (2) and spock (4)
@@ -297,16 +300,6 @@ public class Game implements AfterClick {
         return losingNumbers;
     }
     
-    private boolean playerLost(){
-        
-        for(Integer i : loosingNumbers(cpuChoice)){
-            if(i.equals(playerChoice)){
-                return true;
-            }
-        } 
-        return false;
-    }
-    
     public Scene getScene() {
         return scene;
     }
@@ -321,13 +314,5 @@ public class Game implements AfterClick {
 
     public double getHeight() {
         return height;
-    }
-
-    public int getPlayerChoice() {
-        return playerChoice;
-    }
-
-    public int getCPUChoice() {
-        return cpuChoice;
     }
 }

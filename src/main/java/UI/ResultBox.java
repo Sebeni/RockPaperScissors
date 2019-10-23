@@ -57,6 +57,8 @@ public class ResultBox {
             buttonContinueReturn.setOnAction(e -> window.close());
         } else {
             window.initStyle(StageStyle.UNDECORATED);
+            window.setOnCloseRequest(Event::consume);
+            
             root.setStyle("-fx-border-color: darkgrey;" +
                     "-fx-border-width: 5");
             buttonContinueReturn.setText("Return to options");
@@ -114,8 +116,7 @@ public class ResultBox {
             Button buttonQuit = new Button("Quit");
             buttonQuit.setMinSize(200,20);
             buttonQuit.setOnAction(event -> {
-                AfterClick.closeProgram(primaryStage);
-                window.close();
+                AfterClick.closeProgram(primaryStage, window);
             });
             
             finalResult.getChildren().addAll(gameOver, winsCompare, finalResultCompare, buttonRestart, buttonQuit);
