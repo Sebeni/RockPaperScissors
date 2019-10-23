@@ -44,8 +44,8 @@ public class ResultBox {
         
         VBox root = new VBox(10);
         
-        Button button = new Button();
-        button.setPrefSize(200,20);
+        Button buttonContinueReturn = new Button();
+        buttonContinueReturn.setMinSize(200,20);
 
         //final pane
         VBox finalResult = new VBox(10);
@@ -53,14 +53,14 @@ public class ResultBox {
         
         //checking num of rounds
         if(roundNum <= Options.getNumOfRounds()){
-            button.setText("Continue");
-            button.setOnAction(e -> window.close());
+            buttonContinueReturn.setText("Continue");
+            buttonContinueReturn.setOnAction(e -> window.close());
         } else {
             window.initStyle(StageStyle.UNDECORATED);
             root.setStyle("-fx-border-color: darkgrey;" +
                     "-fx-border-width: 5");
-            button.setText("Return to options");
-            button.setOnAction(e -> {
+            buttonContinueReturn.setText("Return to options");
+            buttonContinueReturn.setOnAction(e -> {
                 AfterClick instance = Options.getInstance(primaryStage);
                 AfterClick.centerWindow(instance);
                 window.close();
@@ -102,11 +102,27 @@ public class ResultBox {
                         "-fx-font-weight: bold;" +
                         "-fx-text-fill: red");
             }
-            finalResult.getChildren().addAll(gameOver, winsCompare, finalResultCompare);
+            
+            Button buttonRestart = new Button("Restart");
+            buttonRestart.setMinSize(200,20);
+            buttonRestart.setOnAction(e -> {
+                AfterClick instance = new Game(primaryStage);
+                AfterClick.centerWindow(instance);
+                window.close();
+            });
+            
+            Button buttonQuit = new Button("Quit");
+            buttonQuit.setMinSize(200,20);
+            buttonQuit.setOnAction(event -> {
+                AfterClick.closeProgram(primaryStage);
+                window.close();
+            });
+            
+            finalResult.getChildren().addAll(gameOver, winsCompare, finalResultCompare, buttonRestart, buttonQuit);
             finalResult.setAlignment(Pos.CENTER);
         }
         
-        root.getChildren().addAll(top, resultLabel, finalResult, button);
+        root.getChildren().addAll(top, resultLabel, finalResult, buttonContinueReturn);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(50));
         
@@ -114,11 +130,5 @@ public class ResultBox {
         window.setScene(layout);
 
         window.showAndWait();
-    }
-    
-    public static void lastRoundDisplay(Stage primaryStage){
-        
-        
-        
     }
 }

@@ -15,7 +15,6 @@ public class Main extends Application {
         HomeScreen hs = HomeScreen.getInstance(primaryStage);
         primaryStage.setTitle("Rock-Paper-Scissors");
         primaryStage.setScene(hs.getScene());
-        
         primaryStage.show();
     }
 }
