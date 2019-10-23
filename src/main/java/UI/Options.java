@@ -34,8 +34,6 @@ public class Options implements AfterClick {
         gp.setPadding(new Insets(10));
         gp.setVgap(10);
         gp.setHgap(10);
-        gp.setAlignment(Pos.CENTER);
-        
         
         Label info = new Label("Game is based on pseudo random CPU choices");
         GridPane.setConstraints(info, 0, 0, 2, 1);
@@ -59,7 +57,7 @@ public class Options implements AfterClick {
         randomLevel.setValue("Total randomness <normal>");
 
         numOfRoundsField = new ChoiceBox<>();
-        numOfRoundsField.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
+        numOfRoundsField.getItems().addAll(1,2,3,4,5,6,7,8,9,10,99);
         numOfRoundsField.setValue(1);
         
         GridPane.setConstraints(gameVersion, 1, 1);
@@ -83,6 +81,7 @@ public class Options implements AfterClick {
         
         
         gp.getChildren().addAll(info, gameVersionLabel, gameVersion, randomLevelLabel, randomLevel, numOfRoundsLabel, numOfRoundsField, returnButton, startGameButton);
+        gp.setAlignment(Pos.CENTER);
         scene = new Scene(gp, width, height);
     }
 

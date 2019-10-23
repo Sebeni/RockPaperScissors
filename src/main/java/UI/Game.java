@@ -23,26 +23,21 @@ public class Game implements AfterClick {
     private int playerChoice;
     private int cpuChoice;
     private Random random = new Random();
-    private Map<Integer, String> possibleChoices = new HashMap<>();
+    private static Map<Integer, String> possibleChoices = new HashMap<>();
     
     private Label roundNumR;
     private Label playerWinsR;
     private Label cpuWinsR;
-
-    public Game(Stage primaryStage){
-        /*0 - rock beats scissors (1) and lizard (3)
-         * 1 - scissors beats paper (2) and lizard (3)
-         * 2 - paper beats rock (0) and spock (4)
-         * 3 - lizard beats paper (2) and spock (4)
-         * 4 - spock beats scissors (1) and rock (0)
-         */
+    
+    static {
         possibleChoices.put(0, "Rock");
         possibleChoices.put(1, "Scissors");
         possibleChoices.put(2, "Paper");
         possibleChoices.put(3, "Lizard");
         possibleChoices.put(4, "Spock");
-        
-        
+    }
+
+    public Game(Stage primaryStage){
         //layout
         window = primaryStage;
         
@@ -50,14 +45,13 @@ public class Game implements AfterClick {
         gp.setPadding(new Insets(10));
         gp.setVgap(10);
         gp.setHgap(50);
-        gp.setAlignment(Pos.CENTER);
 
        //Left top labels
-        Label roudNumL = new Label("Round number");
+        Label roundNumL = new Label("Round number");
         Label playerWinsL = new Label("Player wins");
         Label cpuWinsL = new Label("CPU wins");
 
-        GridPane.setConstraints(roudNumL, 0, 0);
+        GridPane.setConstraints(roundNumL, 0, 0);
         GridPane.setConstraints(playerWinsL, 0, 1);
         GridPane.setConstraints(cpuWinsL, 0, 2);
         
@@ -71,7 +65,7 @@ public class Game implements AfterClick {
         GridPane.setConstraints(cpuWinsR, 2, 2);
         
         //Game buttons
-        Button rock = new Button("Rock\n<press>");
+        Button rock = new Button("Rock");
         rock.setOnAction(event -> {
             playerChoice = 0;
             cpuChoiceLogic();
@@ -81,7 +75,7 @@ public class Game implements AfterClick {
                 "-fx-text-fill: white; " +
                 "-fx-border-color: white");
         
-        Button scissors = new Button("Scissors\n<press>");
+        Button scissors = new Button("Scissors");
         scissors.setOnAction(event -> {
             playerChoice = 1;
             cpuChoiceLogic();
@@ -91,7 +85,7 @@ public class Game implements AfterClick {
                 " -fx-text-fill: white;" +
                 " -fx-border-color: white");
         
-        Button paper = new Button("Paper\n<press>");
+        Button paper = new Button("Paper");
         paper.setOnAction(event -> {
             playerChoice = 2;
             cpuChoiceLogic();
@@ -109,13 +103,13 @@ public class Game implements AfterClick {
         VBox instructionBox = new VBox();
         GridPane.setConstraints(instructionBox, 1, 4,2, 5);
         
-        gp.getChildren().addAll(roudNumL, roundNumR, playerWinsL, playerWinsR, cpuWinsL, cpuWinsR, rock, scissors, paper, instructionBox);
+        gp.getChildren().addAll(roundNumL, roundNumR, playerWinsL, playerWinsR, cpuWinsL, cpuWinsR, rock, scissors, paper, instructionBox);
         
         
         //additional layout accordingly to player's choice
         if(!Options.isStandardGame()){
             //adding spock
-            Button spock = new Button("Spock\n<press>");
+            Button spock = new Button("Spock");
             spock.setOnAction(event -> {
                 playerChoice = 4;
                 cpuChoiceLogic();
@@ -125,7 +119,7 @@ public class Game implements AfterClick {
                     " -fx-text-fill: black;" +
                     " -fx-border-color: white");
             
-            Button lizard = new Button("Lizard\n<press>");
+            Button lizard = new Button("Lizard");
             lizard.setOnAction(event -> {
                 playerChoice = 3;
                 cpuChoiceLogic();
@@ -191,17 +185,17 @@ public class Game implements AfterClick {
         GridPane.setConstraints(newGameButton, 2, 10);
         
         gp.getChildren().addAll(returnButton, newGameButton);
-        
+        gp.setAlignment(Pos.CENTER);
         scene = new Scene(gp, width, height);
     }
     
     private void cpuChoiceLogic(){
         //cpu choices - on hard delete one loosing number
         //normal game
-        Integer[] normalChoices = {0, 1, 2, 0, 1, 2};
+        Integer[] normalChoices = {2, 1, 0, 0, 1, 2};
         
         //spock game
-        Integer[] spockChoices = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
+        Integer[] spockChoices = {4, 3, 2, 1, 0, 0, 1, 2, 3, 4};
         
         if(Options.isNormalRandomness()){
             if(Options.isStandardGame()){
@@ -211,39 +205,49 @@ public class Game implements AfterClick {
             }
         } else {
             if(Options.isStandardGame()){
-                List<Integer> normalChoicesList = new ArrayList<>(Arrays.asList(normalChoices));
-                List<Integer> loosingList = loosingNumbers(playerChoice);
-                for(Integer i : loosingList){
-                    normalChoicesList.remove(i);
-                }
-                cpuChoice = normalChoicesList.get(random.nextInt(normalChoicesList.size() - 1));
+                highDifficultyChoice(normalChoices);
             } else {
-                List<Integer> spockChoicesList = new ArrayList<>(Arrays.asList(spockChoices));
-                List<Integer> loosingList = loosingNumbers(playerChoice);
-                for(Integer i : loosingList){
-                    spockChoicesList.remove(i);
-                }
-                cpuChoice = spockChoicesList.get(random.nextInt(spockChoicesList.size() - 1));
+                highDifficultyChoice(spockChoices);
             }
         }
 
-        System.out.println("Player chose: " + possibleChoices.get(playerChoice));
-        System.out.println("CPU chose: " + possibleChoices.get(cpuChoice));
+        resultPopUp();
+    }
+
+    private void highDifficultyChoice(Integer[] cpuChoices) {
+        List<Integer> normalChoicesList = new ArrayList<>(Arrays.asList(cpuChoices));
+        List<Integer> loosingList = loosingNumbers(playerChoice);
+        for(Integer i : loosingList){
+            normalChoicesList.remove(i);
+        }
+        cpuChoice = normalChoicesList.get(random.nextInt(normalChoicesList.size() - 1));
+    }
+
+    private void resultPopUp() {
+        String playerChoiceString = "You chose: " + possibleChoices.get(playerChoice);
+        String cpuChoiceString  = "CPU chose: " + possibleChoices.get(cpuChoice);
+        String result = "";
         roundNum++;
-        roundNumR.setText("" + roundNum + "/" + Options.getNumOfRounds());
+        
+        //changing visible current round number
+        if(roundNum <= Options.getNumOfRounds()){
+            roundNumR.setText("" + roundNum + "/" + Options.getNumOfRounds());
+        }
+        
         if(cpuChoice == playerChoice){
-            System.out.println("Draw");
+            result = "Draw";
         } else if(playerLost()){
-            System.out.println("Player lost");
             cpuWin++;
             cpuWinsR.setText("" + cpuWin);
+            result = "You lost the round!";
         } else {
-            System.out.println("Player win");
             playerWin++;
             playerWinsR.setText("" + playerWin);
+            result = "You won the round!";
         }
+        ResultBox.display("Result", playerChoiceString, cpuChoiceString, result, roundNum, window, playerWin, cpuWin);
     }
-    
+
     //returns list of numbers which loose with given in argument number
     private List<Integer> loosingNumbers(int numberToWin){
         /*0 - rock beats scissors (1) and lizard (3)
@@ -303,9 +307,6 @@ public class Game implements AfterClick {
         return false;
     }
     
-    
-    
-
     public Scene getScene() {
         return scene;
     }

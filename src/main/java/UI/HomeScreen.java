@@ -31,7 +31,7 @@ public class HomeScreen implements AfterClick {
         
 
         VBox layout = new VBox(20);
-        layout.setAlignment(Pos.CENTER);
+        
         layout.setPadding(new Insets(10, 50, 50, 50));
         
         Button newGame = new Button("New Game");
@@ -53,6 +53,7 @@ public class HomeScreen implements AfterClick {
         exit.setOnAction(event -> AfterClick.closeProgram(window));
         
         layout.getChildren().addAll(newGame, about, exit);
+        layout.setAlignment(Pos.CENTER);
         scene = new Scene(layout, width, height);
         
     }

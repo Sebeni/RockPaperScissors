@@ -24,7 +24,7 @@ public class ConfirmBox {
         Label label = new Label(message);
         
         VBox outerLayout = new VBox(30);
-        outerLayout.setAlignment(Pos.CENTER);
+        
         outerLayout.setPadding(new Insets(10, 50, 50, 50));
 
         HBox layout = new HBox(50);
@@ -34,18 +34,19 @@ public class ConfirmBox {
         Button noButton = new Button("No");
         noButton.setPrefSize(130, 20);
 
-        AtomicBoolean yesAnwser = new AtomicBoolean(false);
+        AtomicBoolean yesAnswer = new AtomicBoolean(false);
 
         yesButton.setOnAction(e -> {
-            yesAnwser.set(true);
+            yesAnswer.set(true);
             window.close();
         });
         noButton.setOnAction(e -> {
-            yesAnwser.set(false);
+            yesAnswer.set(false);
             window.close();
         });
 
         outerLayout.getChildren().addAll(label, layout);
+        outerLayout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
 
@@ -54,7 +55,6 @@ public class ConfirmBox {
 
         window.showAndWait();
 
-        return yesAnwser.get();
+        return yesAnswer.get();
     }
-    
 }
