@@ -80,17 +80,27 @@ public class ResultBox {
             winsCompare.setAlignment(Pos.CENTER);
             
             //last pane
-            Label finalResultCompare = new Label(); 
-            finalResultCompare.setStyle("-fx-font-size:20;" +
-                    "-fx-font-family:Verdana");
+            Label finalResultCompare = new Label();
             
             if(playerWins == cpuWins){
                 finalResultCompare.setText("DRAW");
+                finalResultCompare.setStyle("-fx-font-size:20;" +
+                        "-fx-font-family:Verdana;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: blue");
             }
             else if(playerWins > cpuWins){
                 finalResultCompare.setText("CONGRATULATIONS! YOU WON THE GAME!");
+                finalResultCompare.setStyle("-fx-font-size:20;" +
+                        "-fx-font-family:Verdana;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: green");
             } else {
                 finalResultCompare.setText("YOU LOST THE GAME! BETTER LUCK NEXT TIME");
+                finalResultCompare.setStyle("-fx-font-size:20;" +
+                        "-fx-font-family:Verdana;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: red");
             }
             finalResult.getChildren().addAll(gameOver, winsCompare, finalResultCompare);
             finalResult.setAlignment(Pos.CENTER);
